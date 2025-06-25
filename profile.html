@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@6/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <div id="root"></div>
+  <script type="text/babel">
+    const placeholderImage = './66.jpg';
+    const homeIcon = 'https://tse1.mm.bing.net/th?id=OIP.mqpwvmwMOXiJTKbzZfajqgHaHa&pid=Api&P=0&h=220';
+
+    const Navbar = () => (
+      <nav className="bg-blue-600 text-white p-4 flex items-center justify-between">
+        <div className="flex items-center">
+          <a href="#home">
+            <img src={homeIcon} alt="Home" className="w-8 h-8 mr-4" />
+          </a>
+          <span className="text-2xl font-bold">Suryansh Varma</span>
+        </div>
+        <ul className="flex space-x-6">
+          {['About', 'Project details', 'Skills', 'Recommendations'].map((item) => (
+            <li key={item}>
+              <a
+                href={`#${item.toLowerCase().replace(' ', '-')}`}
+                className="hover:font-bold hover:underline transition duration-200"
+              >
+                {item}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    );
+
+    const About = () => (
+      <section id="about" className="py-10 px-4 bg-white">
+        <h2 className="text-3xl font-bold mb-4 text-center">About Me</h2>
+        <div className="flex flex-col items-center">
+          <img src={placeholderImage} alt="Profile" className="w-32 h-42 rounded-full mb-4" />
+          <h3 className="text-2xl font-semibold">Suryansh Varma</h3>
+          <p className="text-gray-600 max-w-2xl text-center">
+            I am a passionate learner with a background in web development and data science.
+            I enjoy building innovative projects and continuously enhancing my skills to solve real-world problems.
+          </p>
+        </div>
+      </section>
+    );
+
+    const Skills = () => {
+      const skills = [
+        { name: 'JavaScript', logo: './image.png' },
+        { name: 'Python', logo:  'https://up.yimg.com/ib/th?id=OIP.EDJ9xoErBbZqK2tExVoJfAHaHY&pid=Api&rs=1&c=1&qlt=95&w=117&h=117'},
+        { name: 'React', logo: 'https://up.yimg.com/ib/th?id=OIP.QdIrCNdF2ZVylABjjes1LAHaGq&pid=Api&rs=1&c=1&qlt=95&w=113&h=102' },
+        { name: 'Node.js', logo: 'https://up.yimg.com/ib/th?id=OIP.9zN9M5IW0FwVUWiO-xOoMAHaHa&pid=Api&rs=1&c=1&qlt=95&w=114&h=114' },
+        { name: 'SQL', logo: 'https://up.yimg.com/ib/th?id=OIP.GTsBU64y9p1IsOWaZyI9dQHaFy&pid=Api&rs=1&c=1&qlt=95&w=129&h=101' },
+      ];
+      return (
+        <section id="skills" className="py-10 px-4 bg-gray-100">
+          <h2 className="text-3xl font-bold mb-4 text-center">Skills</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            {skills.map((skill) => (
+              <div key={skill.name} className="flex items-center p-4 bg-white rounded shadow">
+                <img src={skill.logo} alt={`${skill.name} logo`} className="w-10 h-10 mr-4" />
+                <span className="text-lg">{skill.name}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    const Projects = () => {
+      const projects = [
+        {
+          title: 'E-Commerce Platform',
+          description: 'Developed a full-stack online store with user authentication and payment integration.',
+          technologies: 'React, Node.js, MongoDB',
+        },
+        {
+          title: 'Task Manager App',
+          description: 'Built a task management tool with drag-and-drop functionality and real-time updates.',
+          technologies: 'Vue.js, Firebase',
+        },
+        {
+          title: 'Data Visualization Dashboard',
+          description: 'Created an interactive dashboard for analyzing sales data with dynamic charts.',
+          technologies: 'Python, Plotly, Flask',
+        },
+      ];
+      return (
+        <section id="project-details" className="py-10 px-4 bg-white">
+          <h2 className="text-3xl font-bold mb-4 text-center">Project Details</h2>
+          <div className="space-y-4 max-w-4xl mx-auto">
+            {projects.map((project) => (
+              <div key={project.title} className="p-4 bg-gray-50 rounded shadow">
+                <h3 className="text-xl font-semibold">{project.title}</h3>
+                <p className="text-gray-600">{project.description}</p>
+                <p className="text-gray-500 text-sm">Technologies: {project.technologies}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    const Recommendations = () => {
+      const [recommendations, setRecommendations] = React.useState([
+        { author: 'John Doe', text: 'Outstanding developer with great problem-solving skills!' },
+        { author: 'Jane Smith', text: 'Delivered a high-quality project on time.' },
+        { author: 'Alice Johnson', text: 'A pleasure to work with, highly recommended!' },
+      ]);
+      const [newRecommendation, setNewRecommendation] = React.useState('');
+      const [showPopup, setShowPopup] = React.useState(false);
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (newRecommendation.trim()) {
+          setRecommendations([
+            ...recommendations,
+            { author: 'New User', text: newRecommendation },
+          ]);
+          setNewRecommendation('');
+          setShowPopup(true);
+          setTimeout(() => setShowPopup(false), 2000);
+        }
+      };
+
+      return (
+        <section id="recommendations" className="py-10 px-4 bg-gray-100">
+          <h2 className="text-3xl font-bold mb-4 text-center">Recommendations</h2>
+          <div className="space-y-4 max-w-4xl mx-auto">
+            {recommendations.map((rec, index) => (
+              <div key={index} className="p-4 bg-white rounded shadow">
+                <p className="text-gray-600 italic">"{rec.text}"</p>
+                <p className="text-gray-500 text-sm mt-2">- {rec.author}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 max-w-md mx-auto">
+            <h3 className="text-xl font-semibold mb-2">Add a Recommendation</h3>
+            <div onSubmit={handleSubmit} className="flex flex-col">
+              <textarea
+                value={newRecommendation}
+                onChange={(e) => setNewRecommendation(e.target.value)}
+                className="p-2 border rounded mb-2"
+                placeholder="Write your recommendation..."
+                rows="4"
+              ></textarea>
+              <button
+                onClick={handleSubmit}
+                className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+          {showPopup && (
+            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white p-4 rounded shadow-lg">
+              Thank you for leaving a recommendation!
+            </div>
+          )}
+        </section>
+      );
+    };
+
+    const App = () => (
+      <div>
+        <Navbar />
+        <div id="home" className="min-h-screen">
+          <About />
+          <Projects />
+          <Skills />
+          <Recommendations />
+        </div>
+      </div>
+    );
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
